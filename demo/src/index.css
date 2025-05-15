@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Kugile";
+  src: url("/Kugile_Demo.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Vindey";
+  src: url("/Wasted-Vindey.ttf") format("truetype");
+}
+
+.font-kugile {
+  font-family: "Kugile", cursive;
+}
+
+.font-vindey {
+  font-family: "Vindey", cursive;
+}
+
+.bg-pink {
+  background-color: #fca5c5;
+}
+
+.bg-blue {
+  background-color: #34c4fd;
+}
