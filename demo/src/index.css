@@ -3,27 +3,47 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "Kugile";
-  src: url("/Kugile_Demo.ttf") format("truetype");
+  font-family: "Copperplate";
+  src: url("/CopperplateCC-Heavy.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: "Vindey";
-  src: url("/Wasted-Vindey.ttf") format("truetype");
+  font-family: "Nimbus";
+  src: url("/TAN-NIMBUS.ttf") format("truetype");
 }
 
-.font-kugile {
-  font-family: "Kugile", cursive;
+.font-copperplate {
+  font-family: "Copperplate", cursive;
 }
 
-.font-vindey {
-  font-family: "Vindey", cursive;
+.font-nimbus {
+  font-family: "Nimbus", cursive;
 }
 
 .bg-pink {
   background-color: #fca5c5;
 }
 
+.text-pink {
+  color: #fca5c5;
+}
+
 .bg-blue {
   background-color: #34c4fd;
+}
+
+.text-blue {
+  color: #34c4fd;
+}
+
+.bg-orange {
+  background-color: #ee5d25;
+}
+
+.bg-yellow {
+  background-color: #fee05a;
+}
+
+.bg-green {
+  background-color: #008000;
 }
