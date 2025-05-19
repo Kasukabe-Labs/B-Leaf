@@ -11,6 +11,10 @@ const BraceletModel = () => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
+
+    // Check initial window size
+    handleResize();
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -38,7 +42,7 @@ const BraceletModel = () => {
     }
   });
 
-  const scale = isMobile ? 4 : 8;
+  const scale = isMobile ? 8 : 8;
   return <primitive object={clonedScene} scale={scale} rotation={[6, Math.PI / 4, 0]} />;
 };
 
@@ -49,39 +53,34 @@ const HeroSection: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   return (
-    <section className="bg-[#fca5c5] relative overflow-hidden w-full h-screen">
-      <div className="mx-auto px-4 md:px-6 h-full w-full">
-        <div className="flex flex-col lg:flex-row items-center relative justify-center h-full w-full">
-          {/* Text content */}
-          <div className="w-full text-center lg:text-left flex items-center justify-center">
-            <h1 className="w-full font-nimbus italic text-7xl md:text-[12rem] mb-6 text-white text-center">
-              Stay Golden
-            </h1>
-          </div>
+    <section className="bg-[#fca5c5] relative overflow-visible w-full min-h-screen">
+      <div className="relative flex items-center justify-center text-center min-h-screen px-4 md:px-6">
+        {/* Text */}
+        <h1 className="font-nimbus italic text-7xl md:text-[12rem] text-white z-10">
+          Stay Golden
+        </h1>
 
-          {/* 3D Model */}
-          <div className="absolute z-20 w-full h-full mt-24 lg:mt-32">
-            <div className="absolute inset-0 animate-float ">
-              <Canvas ref={canvasRef} shadows className="w-full h-full">
-                <ambientLight intensity={0.5} />
-                <directionalLight position={[5, 5, 5]} intensity={0.8} castShadow />
-                <pointLight position={[-3, -3, 3]} intensity={0.3} />
-
-                <Environment preset="sunset" background={false} />
-
-                <BraceletModel />
-
-                <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={1} />
-              </Canvas>
-            </div>
+        {/* Floating 3D Ring */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20 md:mt-32">
+          <div className="w-[300px] md:w-full h-[300px] md:h-full">
+            <Canvas shadows>
+              <ambientLight intensity={0.5} />
+              <directionalLight position={[5, 5, 5]} intensity={0.8} castShadow />
+              <pointLight position={[-3, -3, 3]} intensity={0.3} />
+              <Environment preset="sunset" background={false} />
+              <BraceletModel />
+              <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={1} />
+            </Canvas>
           </div>
         </div>
       </div>
 
-      {/* Background decorative elements */}
+      {/* Optional blurred background elements */}
       <div className="absolute top-1/2 left-1/4 w-64 h-64 rounded-full bg-blue-primary/10 filter blur-3xl"></div>
       <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-pink-primary/10 filter blur-3xl"></div>
     </section>
+
+
   );
 };
 

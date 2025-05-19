@@ -59,12 +59,16 @@ const CategorySection: React.FC<CategorySectionProps> = ({
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
+
+    // Check initial window size
+    handleResize();
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   return (
-    <div className={`flex flex-col ${alignment === 'right' ? 'md:flex-row' : 'md:flex-row-reverse'} items-center ${isMobile ? 'h-[600px]' : 'h-[400px]'}`}>
+    <div className={`flex flex-col ${alignment === 'right' ? 'md:flex-row' : 'md:flex-row-reverse'} items-center ${isMobile ? 'h-[400px]' : 'h-[400px]'}`}>
       <div className="w-full md:w-1/2 mb-8 md:mb-0 h-full">
         <div style={{
           backgroundImage: `url(${bgImage})`,
@@ -75,7 +79,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({
           height: '100%',
         }}
         >
-          <ModelViewer type={type} className="h-full" />
+          <ModelViewer type={type} />
         </div>
       </div>
 

@@ -16,19 +16,23 @@ const JewelryModel: React.FC<JewelryModelProps> = ({ type }) => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
+
+    // Check initial window size
+    handleResize();
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
 
   const braceletModel = useGLTF('/bracelet.glb');
-  const scaleOfBracelet = isMobile ? 8 : 3;
+  const scaleOfBracelet = isMobile ? 2.8 : 3;
 
   const necklaceModel = useGLTF('/necklace.glb');
-  const scaleOfNecklace = isMobile ? 2 : 3;
+  const scaleOfNecklace = isMobile ? 3 : 3;
 
   const ringModel = useGLTF('/ring.glb');
-  const scaleOfRing = isMobile ? 2.5 : 8;
+  const scaleOfRing = isMobile ? 8.3 : 8;
 
   switch (type) {
     case 'bracelet':
@@ -110,8 +114,22 @@ interface ModelViewerProps {
 const ModelViewer: React.FC<ModelViewerProps> = ({ type, className = '' }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Check initial window size
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative ${className} ${isMobile ? 'h-[200px]' : 'h-[400px]'}`}>
       <Canvas ref={canvasRef}>
         <ambientLight intensity={0.5} />
         <directionalLight position={[5, 5, 5]} intensity={0.8} castShadow />
