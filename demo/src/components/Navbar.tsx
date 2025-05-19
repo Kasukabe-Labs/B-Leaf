@@ -19,9 +19,9 @@ const Navbar: React.FC = () => {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-blue shadow-md py-2' : 'bg-transparent py-4'
-        }`}
+        } ${mobileMenuOpen ? 'bg-blue' : 'bg-transparent'}`}
     >
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="container mx-auto px-4 md:px-0">
         <div className="flex justify-between items-center">
           {/* Mobile menu button */}
           <button
@@ -32,10 +32,9 @@ const Navbar: React.FC = () => {
           </button>
 
           {/* Desktop navigation */}
-          <div className="hidden lg:flex space-x-8">
-            <NavItem text="Jewelry" hasDropdown />
-            <NavItem text="Wishlist" />
-            <NavItem text="About" />
+          <div className="hidden lg:flex space-x-8 font-copperplate">
+            <NavItem text="Jewelry" isScrolled={isScrolled} />
+            <NavItem text="Contact Us" isScrolled={isScrolled} />
           </div>
 
           {/* Logo */}
@@ -46,16 +45,8 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Right side navigation */}
-          <div className="hidden lg:flex items-center space-x-6">
-            <div className="flex items-center">
-              <span>EN</span>
-              <ChevronDown size={16} />
-            </div>
-            <a href="/login" className="hover:text-pink-primary transition">Log in</a>
-            <a href="/cart" className="relative">
-              <ShoppingBag size={20} />
-              <span className="absolute -top-2 -right-2 bg-pink-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">2</span>
-            </a>
+          <div className="hidden lg:flex items-center space-x-6 font-copperplate">
+            <a href="/login" className={`text-black transition ${isScrolled ? 'hover:text-[#fca5c5]' : 'hover:text-[#34c4fd]'}`}>Log in</a>
           </div>
 
           {/* Mobile right icons */}
@@ -63,27 +54,18 @@ const Navbar: React.FC = () => {
             <a href="/wishlist">
               <Heart size={20} />
             </a>
-            <a href="/cart" className="relative">
-              <ShoppingBag size={20} />
-              <span className="absolute -top-2 -right-2 bg-pink-primary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">2</span>
-            </a>
           </div>
         </div>
       </div>
 
       {/* Mobile menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-white absolute top-full left-0 right-0 shadow-md">
+        <div className="lg:hidden bg-blue absolute top-full left-0 right-0 shadow-md ">
           <div className="container mx-auto px-4 py-4">
-            <div className="flex flex-col space-y-4">
-              <a href="/jewelry" className="py-2 border-b border-gray-200">Jewelry</a>
-              <a href="/wishlist" className="py-2 border-b border-gray-200">Wishlist</a>
-              <a href="/about" className="py-2 border-b border-gray-200">About</a>
-              <a href="/login" className="py-2 border-b border-gray-200">Log in</a>
-              <div className="flex items-center py-2">
-                <span>EN</span>
-                <ChevronDown size={16} />
-              </div>
+            <div className="flex flex-col space-y-4 font-copperplate">
+              <a href="/jewelry" className="py-2 text-white text-center">Jewelry</a>
+              <a href="/contact" className="py-2 text-white text-center">Contact Us</a>
+              <a href="/login" className="py-2 text-white text-center">Log in</a>
             </div>
           </div>
         </div>
@@ -92,27 +74,16 @@ const Navbar: React.FC = () => {
   );
 };
 
-const NavItem: React.FC<{ text: string; hasDropdown?: boolean }> = ({ text, hasDropdown = false }) => {
+const NavItem: React.FC<{ text: string; hasDropdown?: boolean; isScrolled: boolean }> = ({ text, hasDropdown = false, isScrolled }) => {
   return (
     <div className="relative group">
       <a
         href={`/${text.toLowerCase()}`}
-        className="flex items-center hover:text-pink-white transition"
+        className={`flex items-center text-black transition ${isScrolled ? 'hover:text-[#fca5c5]' : 'hover:text-[#34c4fd]'}`}
       >
         {text}
         {hasDropdown && <ChevronDown size={16} className="ml-1" />}
       </a>
-
-      {hasDropdown && (
-        <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-          <div className="py-2">
-            <a href="/jewelry/necklaces" className="block px-4 py-2 hover:bg-pink-primary/10 hover:text-pink-primary">Necklaces</a>
-            <a href="/jewelry/bracelets" className="block px-4 py-2 hover:bg-pink-primary/10 hover:text-pink-primary">Bracelets</a>
-            <a href="/jewelry/rings" className="block px-4 py-2 hover:bg-pink-primary/10 hover:text-pink-primary">Rings</a>
-            <a href="/jewelry/earrings" className="block px-4 py-2 hover:bg-pink-primary/10 hover:text-pink-primary">Earrings</a>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

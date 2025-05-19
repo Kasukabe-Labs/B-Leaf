@@ -1,96 +1,122 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, useGLTF } from '@react-three/drei';
+import { Environment, OrbitControls, useGLTF } from '@react-three/drei';
 
 interface JewelryModelProps {
-  type: 'bracelet' | 'necklace' | 'ring' | 'earring';
+  type: 'bracelet' | 'necklace' | 'ring';
 }
+
+
 
 // This is a placeholder component that would be replaced with actual models
 const JewelryModel: React.FC<JewelryModelProps> = ({ type }) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+
+  const braceletModel = useGLTF('/bracelet.glb');
+  const scaleOfBracelet = isMobile ? 8 : 3;
+
+  const necklaceModel = useGLTF('/necklace.glb');
+  const scaleOfNecklace = isMobile ? 2 : 3;
+
+  const ringModel = useGLTF('/ring.glb');
+  const scaleOfRing = isMobile ? 2.5 : 8;
+
   switch (type) {
     case 'bracelet':
-      return (
-        <mesh rotation={[0, Math.PI / 2, 0]}>
-          <torusGeometry args={[1, 0.2, 16, 50]} />
-          <meshStandardMaterial 
-            color="#FCA5C5"
-            metalness={0.9}
-            roughness={0.1}
-          />
-        </mesh>
-      );
+      braceletModel.scene.traverse((child) => {
+        if ((child as THREE.Mesh).isMesh) {
+          const mesh = child as THREE.Mesh;
+          mesh.castShadow = true;
+          mesh.receiveShadow = true;
+
+          if (Array.isArray(mesh.material)) {
+            mesh.material.forEach((m) => {
+              m.metalness = 1;
+              m.roughness = 0.2;
+              m.envMapIntensity = 1.5;
+            });
+          } else {
+            mesh.material.metalness = 1;
+            mesh.material.roughness = 0.2;
+            mesh.material.envMapIntensity = 1.5;
+          }
+        }
+      });
+      return <primitive object={braceletModel.scene} scale={scaleOfBracelet} rotation={[25, Math.PI / 7, 0]} />;
+
     case 'necklace':
-      return (
-        <group>
-          <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
-            <torusGeometry args={[1, 0.1, 16, 50]} />
-            <meshStandardMaterial 
-              color="#34C4FD"
-              metalness={0.9}
-              roughness={0.1}
-            />
-          </mesh>
-          <mesh position={[0, -1.2, 0]}>
-            <sphereGeometry args={[0.3, 32, 32]} />
-            <meshStandardMaterial 
-              color="#FFFFFF"
-              metalness={0.9}
-              roughness={0.1}
-            />
-          </mesh>
-        </group>
-      );
+      necklaceModel.scene.traverse((child) => {
+        if ((child as THREE.Mesh).isMesh) {
+          const mesh = child as THREE.Mesh;
+          mesh.castShadow = true;
+          mesh.receiveShadow = true;
+
+          if (Array.isArray(mesh.material)) {
+            mesh.material.forEach((m) => {
+              m.metalness = 1;
+              m.roughness = 0.2;
+              m.envMapIntensity = 1.5;
+            });
+          } else {
+            mesh.material.metalness = 1;
+            mesh.material.roughness = 0.2;
+            mesh.material.envMapIntensity = 1.5;
+          }
+        }
+      });
+      return <primitive object={necklaceModel.scene} scale={scaleOfNecklace} rotation={[25, Math.PI / 7, 0]} />;
+
     case 'ring':
-      return (
-        <mesh rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[0.5, 0.1, 16, 50]} />
-          <meshStandardMaterial 
-            color="#FFA500"
-            metalness={0.9}
-            roughness={0.1}
-          />
-        </mesh>
-      );
-    case 'earring':
-      return (
-        <group>
-          <mesh position={[0, 0.3, 0]}>
-            <sphereGeometry args={[0.15, 32, 32]} />
-            <meshStandardMaterial 
-              color="#FFFFFF"
-              metalness={0.9}
-              roughness={0.1}
-            />
-          </mesh>
-          <mesh position={[0, 0, 0]}>
-            <sphereGeometry args={[0.25, 32, 32]} />
-            <meshStandardMaterial 
-              color="#34C4FD"
-              metalness={0.9}
-              roughness={0.1}
-            />
-          </mesh>
-        </group>
-      );
+      ringModel.scene.traverse((child) => {
+        if ((child as THREE.Mesh).isMesh) {
+          const mesh = child as THREE.Mesh;
+          mesh.castShadow = true;
+          mesh.receiveShadow = true;
+
+          if (Array.isArray(mesh.material)) {
+            mesh.material.forEach((m) => {
+              m.metalness = 1;
+              m.roughness = 0.2;
+              m.envMapIntensity = 1.5;
+            });
+          } else {
+            mesh.material.metalness = 1;
+            mesh.material.roughness = 0.2;
+            mesh.material.envMapIntensity = 1.5;
+          }
+        }
+      });
+      return <primitive object={ringModel.scene} scale={scaleOfRing} rotation={[4, Math.PI / 6, 3]} />;
+
     default:
       return null;
   }
 };
 
 interface ModelViewerProps {
-  type: 'bracelet' | 'necklace' | 'ring' | 'earring';
+  type: 'bracelet' | 'necklace' | 'ring';
   className?: string;
 }
 
 const ModelViewer: React.FC<ModelViewerProps> = ({ type, className = '' }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  
+
   return (
     <div className={`relative ${className}`}>
       <Canvas ref={canvasRef}>
         <ambientLight intensity={0.5} />
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} castShadow />
+        <directionalLight position={[5, 5, 5]} intensity={0.8} castShadow />
+        <pointLight position={[-3, -3, 3]} intensity={0.3} />
+        <Environment preset="sunset" background={false} />
         <JewelryModel type={type} />
         <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={1} />
       </Canvas>

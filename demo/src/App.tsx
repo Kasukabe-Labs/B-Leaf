@@ -8,12 +8,11 @@ import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="font-kugile bg-pink min-h-screen w-full">
+    <div className="bg-pink min-h-screen w-full">
       <Navbar />
       <HeroSection />
-      <LocationBanner />
       <JewelryCategories />
-      <Newsletter />
+      {/* <Newsletter /> */}
       <Footer />
     </div>
   );

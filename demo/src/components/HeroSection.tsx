@@ -1,14 +1,24 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import { Environment } from '@react-three/drei';
 
-
 // ✅ Actual 3D model loader using .glb file
 const BraceletModel = () => {
-  const { scene } = useGLTF('/ring.glb');
+  const [isMobile, setIsMobile] = useState(false);
 
-  scene.traverse((child) => {
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const { scene } = useGLTF('/ring.glb');
+  const clonedScene = scene.clone(true);
+
+  clonedScene.traverse((child) => {
     if ((child as THREE.Mesh).isMesh) {
       const mesh = child as THREE.Mesh;
       mesh.castShadow = true;
@@ -28,8 +38,8 @@ const BraceletModel = () => {
     }
   });
 
-
-  return <primitive object={scene} scale={7} rotation={[0, Math.PI / 2, 0]} />;
+  const scale = isMobile ? 4 : 8;
+  return <primitive object={clonedScene} scale={scale} rotation={[6, Math.PI / 4, 0]} />;
 };
 
 // ✅ Preload for performance
@@ -44,15 +54,15 @@ const HeroSection: React.FC = () => {
         <div className="flex flex-col lg:flex-row items-center relative justify-center h-full w-full">
           {/* Text content */}
           <div className="w-full text-center lg:text-left flex items-center justify-center">
-            <h1 className="w-full font-vindey italic text-5xl md:text-[13rem] mb-6 text-brown-dark text-center">
+            <h1 className="w-full font-nimbus italic text-7xl md:text-[12rem] mb-6 text-white text-center">
               Stay Golden
             </h1>
           </div>
 
           {/* 3D Model */}
-          <div className="absolute z-20 w-full h-full lg:mt-10">
+          <div className="absolute z-20 w-full h-full mt-24 lg:mt-32">
             <div className="absolute inset-0 animate-float ">
-              <Canvas ref={canvasRef} shadows className="w-full h-full border-2 border-green-500">
+              <Canvas ref={canvasRef} shadows className="w-full h-full">
                 <ambientLight intensity={0.5} />
                 <directionalLight position={[5, 5, 5]} intensity={0.8} castShadow />
                 <pointLight position={[-3, -3, 3]} intensity={0.3} />
