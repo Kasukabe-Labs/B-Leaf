@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ModelViewer from './ModelViewer';
 
 const JewelryCategories: React.FC = () => {
@@ -53,8 +53,18 @@ const CategorySection: React.FC<CategorySectionProps> = ({
   alignment,
   bgImage
 }) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
-    <div className={`flex flex-col ${alignment === 'right' ? 'md:flex-row' : 'md:flex-row-reverse'} items-center h-[400px]`}>
+    <div className={`flex flex-col ${alignment === 'right' ? 'md:flex-row' : 'md:flex-row-reverse'} items-center ${isMobile ? 'h-[600px]' : 'h-[400px]'}`}>
       <div className="w-full md:w-1/2 mb-8 md:mb-0 h-full">
         <div style={{
           backgroundImage: `url(${bgImage})`,

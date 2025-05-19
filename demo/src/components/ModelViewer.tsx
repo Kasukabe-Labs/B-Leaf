@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Environment, OrbitControls, useGLTF } from '@react-three/drei';
 
@@ -10,10 +10,25 @@ interface JewelryModelProps {
 
 // This is a placeholder component that would be replaced with actual models
 const JewelryModel: React.FC<JewelryModelProps> = ({ type }) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
 
   const braceletModel = useGLTF('/bracelet.glb');
+  const scaleOfBracelet = isMobile ? 8 : 3;
+
   const necklaceModel = useGLTF('/necklace.glb');
+  const scaleOfNecklace = isMobile ? 2 : 3;
+
   const ringModel = useGLTF('/ring.glb');
+  const scaleOfRing = isMobile ? 2.5 : 8;
 
   switch (type) {
     case 'bracelet':
@@ -36,7 +51,7 @@ const JewelryModel: React.FC<JewelryModelProps> = ({ type }) => {
           }
         }
       });
-      return <primitive object={braceletModel.scene} scale={2.5} rotation={[25, Math.PI / 7, 0]} />;
+      return <primitive object={braceletModel.scene} scale={scaleOfBracelet} rotation={[25, Math.PI / 7, 0]} />;
 
     case 'necklace':
       necklaceModel.scene.traverse((child) => {
@@ -58,7 +73,7 @@ const JewelryModel: React.FC<JewelryModelProps> = ({ type }) => {
           }
         }
       });
-      return <primitive object={necklaceModel.scene} scale={2.5} rotation={[25, Math.PI / 7, 0]} />;
+      return <primitive object={necklaceModel.scene} scale={scaleOfNecklace} rotation={[25, Math.PI / 7, 0]} />;
 
     case 'ring':
       ringModel.scene.traverse((child) => {
@@ -80,7 +95,7 @@ const JewelryModel: React.FC<JewelryModelProps> = ({ type }) => {
           }
         }
       });
-      return <primitive object={ringModel.scene} scale={8} rotation={[4, Math.PI / 6, 3]} />;
+      return <primitive object={ringModel.scene} scale={scaleOfRing} rotation={[4, Math.PI / 6, 3]} />;
 
     default:
       return null;
