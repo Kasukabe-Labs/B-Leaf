@@ -7,9 +7,10 @@ const Footer: React.FC = () => {
   return (
     <div className="bg-pink pt-12 pb-6 rounded-t-3xl relative -top-4">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        {/* Top grid section */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12 space-y-8 sm:space-y-0">
           {/* Jewelry column */}
-          <div>
+          <div className="text-center sm:text-left">
             <h3 className="font-medium text-black mb-4 font-nimbus">Jewelry</h3>
             <ul className="space-y-2 text-black/50 font-copperplate text-sm">
               <li><a href="/jewelry/new-arrivals" className="hover:text-[#34C4FD] transition">New Arrivals</a></li>
@@ -22,7 +23,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Support column */}
-          <div>
+          <div className="text-center sm:text-left">
             <h3 className="font-medium text-black mb-4 font-nimbus">Support</h3>
             <ul className="space-y-2 text-black/50 font-copperplate text-sm">
               <li><a href="/about" className="hover:text-[#34C4FD] transition">About</a></li>
@@ -35,7 +36,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Language column */}
-          <div>
+          <div className="text-center sm:text-left">
             <h3 className="font-medium text-black mb-4 font-nimbus">Language</h3>
             <ul className="space-y-2 text-black/50 font-copperplate text-sm">
               <li><a href="?lang=en" className="hover:text-[#34C4FD] transition">English</a></li>
@@ -47,9 +48,9 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Social Media column */}
-          <div>
+          <div className="text-center sm:text-left">
             <h3 className="font-medium text-black mb-4 font-nimbus">Social Media</h3>
-            <div className="flex space-x-4 mb-4">
+            <div className="flex justify-center sm:justify-start space-x-4 mb-4">
               <a
                 href="https://instagram.com"
                 className="text-black/50 hover:text-[#34C4FD] transition"
@@ -76,7 +77,7 @@ const Footer: React.FC = () => {
               </a>
             </div>
             <h3 className="font-medium text-black mb-2 font-nimbus">Contact Us</h3>
-            <p className="text-black/50 mb-2 font-copperplate text-sm">+1 (800) 123-4567</p>
+            <p className="text-black/50 mb-2 font-copperplate text-sm mt-2">+1 (800) 123-4567</p>
             <p className="text-black/50 font-copperplate text-sm">info@bleaf.com</p>
           </div>
         </div>
@@ -84,11 +85,13 @@ const Footer: React.FC = () => {
         {/* Bottom section */}
         <div className="pt-6 border-t border-black/20">
           <div className="flex flex-col md:flex-row justify-between items-center text-black/50 text-sm">
-            <div className="flex space-x-4 mb-4 md:mb-0">
+            <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 mb-4 md:mb-0 text-center sm:text-left">
               <a href="/terms" className="hover:text-[#34C4FD] transition font-copperplate text-sm">Terms and Conditions</a>
               <a href="/privacy" className="hover:text-[#34C4FD] transition font-copperplate text-sm">Privacy Policy</a>
             </div>
-            <div className="text-black/50 font-copperplate text-sm">© {currentYear} B-Leaf. All rights reserved.</div>
+            <div className="text-black/50 font-copperplate text-sm text-center sm:text-left">
+              © {currentYear} B-Leaf. All rights reserved.
+            </div>
           </div>
         </div>
       </div>
